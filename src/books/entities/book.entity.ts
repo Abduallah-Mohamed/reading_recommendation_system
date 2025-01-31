@@ -1,9 +1,9 @@
 import { UserBook } from 'src/user-books/entities/user-book.entity';
 import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
 
-@Entity()
+@Entity({ name: 'books' })
 export class Book {
-  @PrimaryGeneratedColumn('uuid')
+  @PrimaryGeneratedColumn()
   id: string;
 
   @Column()
