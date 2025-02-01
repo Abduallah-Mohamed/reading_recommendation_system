@@ -1,4 +1,4 @@
-import { Injectable, Logger } from '@nestjs/common';
+import { Injectable, Logger, NotFoundException } from '@nestjs/common';
 import { CreateBookDto } from './dto/create-book.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Book } from './entities/book.entity';
@@ -34,6 +34,23 @@ export class BooksService {
       };
     } catch (error) {
       this.logger.error(`Error creating book: ${error.message}`, error.stack);
+
+      throw error;
+    }
+  }
+
+  async findOneById(id: number): Promise<Book> {
+    try {
+      const book = await this.bookRepository.findOne({ where: { id } });
+
+      if (!book) {
+        this.logger.error(`Book not found: ${id}`);
+        throw new NotFoundException(`Book not found: ${id}`);
+      }
+
+      return book;
+    } catch (error) {
+      this.logger.error(`Error finding book: ${error.message}`, error.stack);
 
       throw error;
     }

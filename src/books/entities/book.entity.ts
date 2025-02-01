@@ -1,14 +1,14 @@
-import { UserBook } from 'src/user-books/entities/user-book.entity';
+import { Favorite } from 'src/favorites/entities/favorite.entity';
 import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
 
 @Entity({ name: 'books' })
 export class Book {
   @PrimaryGeneratedColumn()
-  id: string;
+  id: number;
 
   @Column()
   title: string;
 
-  @OneToMany(() => UserBook, (userBook) => userBook.book)
-  userBooks: UserBook[];
+  @OneToMany(() => Favorite, (favorite) => favorite.book)
+  favorites: Favorite[];
 }

@@ -3,9 +3,10 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { BooksModule } from './books/books.module';
 import { AuthModule } from './auth/auth.module';
-import { UserBooksModule } from './user-books/user-books.module';
+import { FavoritesModule } from './favorites/favorites.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { UsersModule } from './users/users.module';
 
 @Module({
   imports: [
@@ -37,7 +38,8 @@ import { TypeOrmModule } from '@nestjs/typeorm';
     }),
     BooksModule,
     AuthModule,
-    UserBooksModule,
+    FavoritesModule,
+    UsersModule,
   ],
   controllers: [AppController],
   providers: [AppService],
