@@ -48,4 +48,32 @@ export class UsersService {
       throw error;
     }
   }
+
+  async findByEmail(email: string): Promise<User> {
+    try {
+      const user = await this.userRepository.findOne({ where: { email } });
+      if (!user) {
+        this.logger.error('User not found');
+        throw new NotFoundException('User not found');
+      }
+      return user;
+    } catch (error) {
+      this.logger.error('Failed to find user', error);
+      throw error;
+    }
+  }
+
+  async findById(id: number): Promise<User> {
+    try {
+      const user = await this.userRepository.findOne({ where: { id } });
+      if (!user) {
+        this.logger.error('User not found');
+        throw new NotFoundException('User not found');
+      }
+      return user;
+    } catch (error) {
+      this.logger.error('Failed to find user', error);
+      throw error;
+    }
+  }
 }
