@@ -40,53 +40,6 @@ export class BooksService {
     }
   }
 
-  // async getTopRecommendedBooks() {
-  //   const books = await this.bookRepository.find({
-  //     relations: ['readings'],
-  //   });
-
-  //   // this.logger.log(books);
-
-  //   const booksWithReadPages = books.map((book) => {
-  //     const uniquePages = this.calculateUniquePages(book.readings);
-  //     this.logger.log(`Book: ${book.title} - Unique pages: ${uniquePages}`);
-  //     return {
-  //       book_id: book.id,
-  //       book_name: book.title,
-  //       num_of_pages: book.num_of_pages,
-  //       num_of_read_pages: Math.min(uniquePages, book.num_of_pages),
-  //     };
-  //   });
-
-  //   return booksWithReadPages
-  //     .sort((a, b) => b.num_of_read_pages - a.num_of_read_pages)
-  //     .slice(0, 5);
-  // }
-
-  // private calculateUniquePages(intervals: Reading[]): number {
-  //   if (intervals.length === 0) return 0;
-
-  //   // Sort intervals by start_page
-  //   intervals.sort((a, b) => a.start_page - b.start_page);
-
-  //   const merged = [intervals[0]];
-
-  //   for (let i = 1; i < intervals.length; i++) {
-  //     const current = intervals[i];
-  //     const lastMerged = merged[merged.length - 1];
-
-  //     if (current.start_page <= lastMerged.end_page) {
-  //       lastMerged.end_page = Math.max(lastMerged.end_page, current.end_page);
-  //     } else {
-  //       merged.push(current);
-  //     }
-  //   }
-
-  //   return merged.reduce((total, interval) => {
-  //     return total + (interval.end_page - interval.start_page + 1);
-  //   }, 0);
-  // }
-
   async getTopRecommendedBooks(
     limit: number = 5,
   ): Promise<RecommendedBooksResponse> {

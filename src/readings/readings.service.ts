@@ -5,6 +5,7 @@ import { Reading } from './entities/reading.entity';
 import { Repository } from 'typeorm';
 import { UsersService } from 'src/users/users.service';
 import { BooksService } from 'src/books/books.service';
+import { User } from 'src/users/entities/user.entity';
 
 @Injectable()
 export class ReadingsService {
@@ -19,16 +20,19 @@ export class ReadingsService {
     private booksService: BooksService,
   ) {}
 
-  async create(createReadingDto: CreateReadingDto): Promise<{
+  async create(
+    createReadingDto: CreateReadingDto,
+    currentUser: User,
+  ): Promise<{
     status_code: string;
   }> {
     try {
-      const { user_id, book_id, start_page, end_page } = createReadingDto;
+      const { book_id, start_page, end_page } = createReadingDto;
 
       // Check if the reading already exists to prevent duplicates
       const existingReading = await this.readingsRepository.findOne({
         where: {
-          user: { id: +user_id },
+          user: { id: +currentUser.id },
           book: { id: +book_id },
           start_page,
           end_page,
@@ -41,7 +45,7 @@ export class ReadingsService {
 
       // Fetch user and book in parallel (Improves performance)
       const [user, book] = await Promise.all([
-        this.usersService.findOneById(+user_id),
+        this.usersService.findOneById(+currentUser.id),
         this.booksService.findOneById(+book_id),
       ]);
 

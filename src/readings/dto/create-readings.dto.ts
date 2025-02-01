@@ -8,10 +8,11 @@ export class CreateReadingDto {
   @ApiProperty({ example: '1', description: 'The ID of the book' })
   book_id: string;
 
-  @IsString()
-  @IsNotEmpty()
-  @ApiProperty({ example: '1', description: 'The ID of the user' })
-  user_id: string;
+  // ! I will get the user id from the logged in user (request)
+  // @IsString()
+  // @IsNotEmpty()
+  // @ApiProperty({ example: '1', description: 'The ID of the user' })
+  // user_id: string;
 
   @IsNumber()
   @IsNotEmpty()

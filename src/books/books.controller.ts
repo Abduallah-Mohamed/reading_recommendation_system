@@ -5,7 +5,7 @@ import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { Roles } from 'src/common';
 import { JwtAuthGuard, RolesGuard } from 'src/common';
 
-@ApiTags('Books') // 📌 Group under "Books" section in Swagger
+@ApiTags('Books') // Group under "Books" section in Swagger
 @Controller('books')
 @UseGuards(JwtAuthGuard, RolesGuard)
 export class BooksController {
