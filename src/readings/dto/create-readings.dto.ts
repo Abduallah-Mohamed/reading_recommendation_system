@@ -2,7 +2,7 @@ import { IsNotEmpty, IsNumber, IsString } from 'class-validator';
 import { IsPageRangeValid } from '../decorators/validate-page-range.decorator';
 import { ApiProperty } from '@nestjs/swagger';
 
-export class CreateFavoriteDto {
+export class CreateReadingDto {
   @IsString()
   @IsNotEmpty()
   @ApiProperty({ example: '1', description: 'The ID of the book' })

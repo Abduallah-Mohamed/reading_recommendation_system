@@ -1,5 +1,12 @@
-import { Favorite } from 'src/favorites/entities/favorite.entity';
-import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
+import { Reading } from 'src/readings/entities/reading.entity';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  OneToMany,
+  BeforeInsert,
+} from 'typeorm';
+import * as bcrypt from 'bcrypt';
 
 @Entity({ name: 'users' })
 export class User {
@@ -9,12 +16,20 @@ export class User {
   @Column()
   username: string;
 
-  @Column()
+  @Column({ unique: true })
   email: string;
 
   @Column()
   password: string;
 
-  @OneToMany(() => Favorite, (favorite) => favorite.user)
-  favorites: Favorite[];
+  @Column({ default: 'user' })
+  role: string;
+
+  @OneToMany(() => Reading, (reading) => reading.user)
+  readings: Reading[];
+
+  @BeforeInsert()
+  async hashPassword() {
+    this.password = await bcrypt.hash(this.password, 10);
+  }
 }
