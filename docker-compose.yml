@@ -1,0 +1,68 @@
+version: '3.8'
+
+services:
+  app: # Primarily for building the application
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: builder
+    image: bookwise:builder
+    volumes:
+      - .:/app
+      - /app/node_modules
+    command: sh -c "yarn install && yarn build"
+
+  seeder:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: builder # Reuse the builder stage image
+    image: bookwise:seeder # Give it a separate image tag
+    depends_on:
+      - postgres
+    environment:
+      - DB_HOST=postgres
+      - DB_PORT=5432
+      - DB_USERNAME=postgres
+      - DB_PASSWORD=postgres
+      - DB_DATABASE=book_recommendation
+      - JWT_SECRET=secret-key
+
+    command: sh -c "yarn install && yarn seed"
+
+  app-prod:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: production
+    image: bookwise:latest
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+      - DB_HOST=postgres
+      - DB_PORT=5432
+      - DB_USERNAME=postgres
+      - DB_PASSWORD=postgres
+      - DB_DATABASE=book_recommendation
+    env_file:
+      - .env
+    depends_on:
+      - postgres
+      - seeder # Depend on the seeder service
+    command: yarn start:prod
+
+  postgres:
+    image: postgres:latest
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: book_recommendation
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    restart: always
+
+volumes:
+  postgres-data:

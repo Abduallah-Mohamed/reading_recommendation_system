@@ -23,11 +23,11 @@ import { UsersModule } from './users/users.module';
         port: configService.get<number>('DB_PORT'),
         username: configService.get<string>('DB_USERNAME'),
         password: configService.get<string>('DB_PASSWORD'),
-        database: configService.get<string>('DB_NAME'),
+        database: configService.get<string>('DB_NAME') || 'book_recommendation',
         entities: [__dirname + '/**/*.entity{.ts,.js}'],
-        synchronize: true, // Automatically sync database schema (only TRUE for development)
+        synchronize: false, // Automatically sync database schema (only TRUE for development)
         logging: true, // Log SQL queries
-        logger: 'advanced-console', // Log SQL queries to a file
+        logger: 'advanced-console',
         extra: {
           connectionLog: () => {
             console.log('Connection logged');

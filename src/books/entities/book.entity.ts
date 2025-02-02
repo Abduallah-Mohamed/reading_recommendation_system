@@ -9,7 +9,7 @@ export class Book {
   @Column()
   title: string;
 
-  @Column({ nullable: true })
+  @Column()
   num_of_pages: number;
 
   @OneToMany(() => Reading, (reading) => reading.book)
